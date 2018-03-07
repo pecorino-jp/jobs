@@ -21,7 +21,7 @@ let countRetry = 0;
 
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
 const INTERVAL_MILLISECONDS = 500;
-const transactionRepository = new pecorino.repository.Transaction(pecorino.mongoose.connection);
+const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
 const RETRY_INTERVAL_MINUTES = 10;
 
 setInterval(
@@ -34,7 +34,7 @@ setInterval(
 
         try {
             debug('reexporting tasks...');
-            await transactionRepository.reexportTasks(RETRY_INTERVAL_MINUTES);
+            await transactionRepo.reexportTasks(RETRY_INTERVAL_MINUTES);
         } catch (error) {
             console.error(error.message);
         }

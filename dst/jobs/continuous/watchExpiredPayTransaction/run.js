@@ -25,8 +25,8 @@ pecorino.mongoose.connect(process.env.MONGOLAB_URI, mongooseConnectionOptions_1.
 let countExecute = 0;
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
 const INTERVAL_MILLISECONDS = 500;
-const taskRepository = new pecorino.repository.Task(pecorino.mongoose.connection);
-const transactionRepository = new pecorino.repository.Transaction(pecorino.mongoose.connection);
+const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
+const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
 setInterval(() => __awaiter(this, void 0, void 0, function* () {
     if (countExecute > MAX_NUBMER_OF_PARALLEL_TASKS) {
         return;
@@ -34,7 +34,7 @@ setInterval(() => __awaiter(this, void 0, void 0, function* () {
     countExecute += 1;
     try {
         debug('exporting tasks...');
-        yield pecorino.service.transaction.pay.exportTasks(pecorino.factory.transactionStatusType.Expired)(taskRepository, transactionRepository);
+        yield pecorino.service.transaction.pay.exportTasks(pecorino.factory.transactionStatusType.Expired)({ task: taskRepo, transaction: transactionRepo });
     }
     catch (error) {
         console.error(error.message);

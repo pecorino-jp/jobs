@@ -1,6 +1,6 @@
 "use strict";
 /**
- * 支払取引実行
+ * 現金転送実行
  * @ignore
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -25,7 +25,7 @@ pecorino.mongoose.connect(process.env.MONGOLAB_URI, mongooseConnectionOptions_1.
 let count = 0;
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
 const INTERVAL_MILLISECONDS = 1000;
-const taskRepository = new pecorino.repository.Task(pecorino.mongoose.connection);
+const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
 setInterval(() => __awaiter(this, void 0, void 0, function* () {
     if (count > MAX_NUBMER_OF_PARALLEL_TASKS) {
         return;
@@ -33,7 +33,7 @@ setInterval(() => __awaiter(this, void 0, void 0, function* () {
     count += 1;
     try {
         debug('count:', count);
-        yield pecorino.service.task.executeByName(pecorino.factory.taskName.ExecutePayAction)(taskRepository, pecorino.mongoose.connection);
+        yield pecorino.service.task.executeByName(pecorino.factory.taskName.MoneyTransfer)({ taskRepo: taskRepo, connection: pecorino.mongoose.connection });
     }
     catch (error) {
         console.error(error.message);

@@ -1,11 +1,14 @@
 /**
- * 支払取引キャンセル
+ * 現金転送実行
  * @ignore
  */
 
 import * as pecorino from '@motionpicture/pecorino-domain';
+import * as createDebug from 'debug';
 
 import mongooseConnectionOptions from '../../../mongooseConnectionOptions';
+
+const debug = createDebug('pecorino-jobs:continuous:settleCreditCard');
 
 pecorino.mongoose.connect(<string>process.env.MONGOLAB_URI, mongooseConnectionOptions)
     .then()
@@ -18,7 +21,7 @@ let count = 0;
 
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
 const INTERVAL_MILLISECONDS = 1000;
-const taskRepository = new pecorino.repository.Task(pecorino.mongoose.connection);
+const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
 
 setInterval(
     async () => {
@@ -29,9 +32,10 @@ setInterval(
         count += 1;
 
         try {
+            debug('count:', count);
             await pecorino.service.task.executeByName(
-                pecorino.factory.taskName.CancelPayAction
-            )(taskRepository, pecorino.mongoose.connection);
+                pecorino.factory.taskName.MoneyTransfer
+            )({ taskRepo: taskRepo, connection: pecorino.mongoose.connection });
         } catch (error) {
             console.error(error.message);
         }

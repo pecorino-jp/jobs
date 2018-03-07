@@ -21,7 +21,7 @@ let count = 0;
 
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
 const INTERVAL_MILLISECONDS = 1000;
-const transactionRepository = new pecorino.repository.Transaction(pecorino.mongoose.connection);
+const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
 
 setInterval(
     async () => {
@@ -33,7 +33,7 @@ setInterval(
 
         try {
             debug('transaction expiring...');
-            await transactionRepository.makeExpired();
+            await transactionRepo.makeExpired();
         } catch (error) {
             console.error(error.message);
         }

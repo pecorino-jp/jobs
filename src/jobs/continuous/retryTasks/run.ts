@@ -19,7 +19,7 @@ let count = 0;
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
 const INTERVAL_MILLISECONDS = 1000;
 const RETRY_INTERVAL_MINUTES = 10;
-const taskRepository = new pecorino.repository.Task(pecorino.mongoose.connection);
+const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
 
 setInterval(
     async () => {
@@ -30,7 +30,7 @@ setInterval(
         count += 1;
 
         try {
-            await pecorino.service.task.retry(RETRY_INTERVAL_MINUTES)(taskRepository);
+            await pecorino.service.task.retry(RETRY_INTERVAL_MINUTES)({ task: taskRepo });
         } catch (error) {
             console.error(error.message);
         }

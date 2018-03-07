@@ -21,8 +21,8 @@ let countExecute = 0;
 
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
 const INTERVAL_MILLISECONDS = 200;
-const taskRepository = new pecorino.repository.Task(pecorino.mongoose.connection);
-const transactionRepository = new pecorino.repository.Transaction(pecorino.mongoose.connection);
+const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
+const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
 
 setInterval(
     async () => {
@@ -36,7 +36,7 @@ setInterval(
             debug('exporting tasks...');
             await pecorino.service.transaction.pay.exportTasks(
                 pecorino.factory.transactionStatusType.Confirmed
-            )(taskRepository, transactionRepository);
+            )({ task: taskRepo, transaction: transactionRepo });
         } catch (error) {
             console.error(error.message);
         }
