@@ -20,7 +20,7 @@ pecorino.mongoose.connect(process.env.MONGOLAB_URI, mongooseConnectionOptions_1.
     .then()
     .catch((err) => {
     console.error(err);
-    process.exit(0);
+    process.exit(1);
 });
 let countRetry = 0;
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;

@@ -1,11 +1,14 @@
 /**
- * タスク中止
+ * 確定転送取引監視
  * @ignore
  */
 
 import * as pecorino from '@motionpicture/pecorino-domain';
+import * as createDebug from 'debug';
 
 import mongooseConnectionOptions from '../../../mongooseConnectionOptions';
+
+const debug = createDebug('pecorino-jobs:*');
 
 pecorino.mongoose.connect(<string>process.env.MONGOLAB_URI, mongooseConnectionOptions)
     .then()
@@ -14,28 +17,31 @@ pecorino.mongoose.connect(<string>process.env.MONGOLAB_URI, mongooseConnectionOp
         process.exit(1);
     });
 
-let count = 0;
+let countExecute = 0;
 
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
-const INTERVAL_MILLISECONDS = 500;
-const RETRY_INTERVAL_MINUTES = 10;
+const INTERVAL_MILLISECONDS = 200;
 const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
+const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
 
 setInterval(
     async () => {
-        if (count > MAX_NUBMER_OF_PARALLEL_TASKS) {
+        if (countExecute > MAX_NUBMER_OF_PARALLEL_TASKS) {
             return;
         }
 
-        count += 1;
+        countExecute += 1;
 
         try {
-            await pecorino.service.task.abort(RETRY_INTERVAL_MINUTES)({ task: taskRepo });
+            debug('exporting tasks...');
+            await pecorino.service.transaction.transfer.exportTasks(
+                pecorino.factory.transactionStatusType.Confirmed
+            )({ task: taskRepo, transaction: transactionRepo });
         } catch (error) {
             console.error(error.message);
         }
 
-        count -= 1;
+        countExecute -= 1;
     },
     INTERVAL_MILLISECONDS
 );

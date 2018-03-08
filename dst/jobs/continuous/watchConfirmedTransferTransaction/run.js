@@ -1,6 +1,6 @@
 "use strict";
 /**
- * タスクリトライ
+ * 確定転送取引監視
  * @ignore
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
@@ -13,28 +13,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const pecorino = require("@motionpicture/pecorino-domain");
+const createDebug = require("debug");
 const mongooseConnectionOptions_1 = require("../../../mongooseConnectionOptions");
+const debug = createDebug('pecorino-jobs:*');
 pecorino.mongoose.connect(process.env.MONGOLAB_URI, mongooseConnectionOptions_1.default)
     .then()
     .catch((err) => {
     console.error(err);
     process.exit(1);
 });
-let count = 0;
+let countExecute = 0;
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
-const INTERVAL_MILLISECONDS = 1000;
-const RETRY_INTERVAL_MINUTES = 10;
+const INTERVAL_MILLISECONDS = 200;
 const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
+const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
 setInterval(() => __awaiter(this, void 0, void 0, function* () {
-    if (count > MAX_NUBMER_OF_PARALLEL_TASKS) {
+    if (countExecute > MAX_NUBMER_OF_PARALLEL_TASKS) {
         return;
     }
-    count += 1;
+    countExecute += 1;
     try {
-        yield pecorino.service.task.retry(RETRY_INTERVAL_MINUTES)({ task: taskRepo });
+        debug('exporting tasks...');
+        yield pecorino.service.transaction.transfer.exportTasks(pecorino.factory.transactionStatusType.Confirmed)({ task: taskRepo, transaction: transactionRepo });
     }
     catch (error) {
         console.error(error.message);
     }
-    count -= 1;
+    countExecute -= 1;
 }), INTERVAL_MILLISECONDS);

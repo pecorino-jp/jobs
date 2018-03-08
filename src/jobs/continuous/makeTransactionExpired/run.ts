@@ -14,7 +14,7 @@ pecorino.mongoose.connect(<string>process.env.MONGOLAB_URI, mongooseConnectionOp
     .then()
     .catch((err) => {
         console.error(err);
-        process.exit(0);
+        process.exit(1);
     });
 
 let count = 0;
