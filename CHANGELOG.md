@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - 入金取引監視ジョブを追加。
 - 転送取引監視ジョブを追加。
 - 期限切れ取引監視ジョブを追加。
+- 中止取引監視ジョブを追加。
 
 ### Changed
 
