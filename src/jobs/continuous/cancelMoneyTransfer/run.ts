@@ -37,7 +37,7 @@ setInterval(
                 pecorino.factory.taskName.CancelMoneyTransfer
             )({ taskRepo: taskRepo, connection: pecorino.mongoose.connection });
         } catch (error) {
-            console.error(error.message);
+            console.error(error);
         }
 
         count -= 1;

@@ -34,7 +34,7 @@ setInterval(() => __awaiter(this, void 0, void 0, function* () {
         yield pecorino.service.task.retry(RETRY_INTERVAL_MINUTES)({ task: taskRepo });
     }
     catch (error) {
-        console.error(error.message);
+        console.error(error);
     }
     count -= 1;
 }), INTERVAL_MILLISECONDS);

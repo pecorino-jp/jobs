@@ -33,9 +33,9 @@ setInterval(
 
         try {
             debug('transaction expiring...');
-            await transactionRepo.makeExpired();
+            await transactionRepo.makeExpired({ expires: new Date() });
         } catch (error) {
-            console.error(error.message);
+            console.error(error);
         }
 
         count -= 1;

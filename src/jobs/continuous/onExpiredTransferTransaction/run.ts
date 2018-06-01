@@ -1,5 +1,5 @@
 /**
- * 現金転送実行
+ * 期限切れ転送引監視
  * @ignore
  */
 
@@ -8,7 +8,7 @@ import * as createDebug from 'debug';
 
 import mongooseConnectionOptions from '../../../mongooseConnectionOptions';
 
-const debug = createDebug('pecorino-jobs:continuous:settleCreditCard');
+const debug = createDebug('pecorino-jobs:*');
 
 pecorino.mongoose.connect(<string>process.env.MONGOLAB_URI, mongooseConnectionOptions)
     .then()
@@ -17,30 +17,31 @@ pecorino.mongoose.connect(<string>process.env.MONGOLAB_URI, mongooseConnectionOp
         process.exit(1);
     });
 
-let count = 0;
+let countExecute = 0;
 
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
-const INTERVAL_MILLISECONDS = 1000;
+const INTERVAL_MILLISECONDS = 500;
 const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
+const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
 
 setInterval(
     async () => {
-        if (count > MAX_NUBMER_OF_PARALLEL_TASKS) {
+        if (countExecute > MAX_NUBMER_OF_PARALLEL_TASKS) {
             return;
         }
 
-        count += 1;
+        countExecute += 1;
 
         try {
-            debug('count:', count);
-            await pecorino.service.task.executeByName(
-                pecorino.factory.taskName.MoneyTransfer
-            )({ taskRepo: taskRepo, connection: pecorino.mongoose.connection });
+            debug('exporting tasks...');
+            await pecorino.service.transaction.transfer.exportTasks(
+                pecorino.factory.transactionStatusType.Expired
+            )({ task: taskRepo, transaction: transactionRepo });
         } catch (error) {
             console.error(error);
         }
 
-        count -= 1;
+        countExecute -= 1;
     },
     INTERVAL_MILLISECONDS
 );

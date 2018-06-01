@@ -36,7 +36,7 @@ setInterval(() => __awaiter(this, void 0, void 0, function* () {
         yield pecorino.service.task.executeByName(pecorino.factory.taskName.CancelMoneyTransfer)({ taskRepo: taskRepo, connection: pecorino.mongoose.connection });
     }
     catch (error) {
-        console.error(error.message);
+        console.error(error);
     }
     count -= 1;
 }), INTERVAL_MILLISECONDS);
