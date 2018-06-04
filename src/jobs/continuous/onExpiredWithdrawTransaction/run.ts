@@ -34,7 +34,7 @@ setInterval(
 
         try {
             debug('exporting tasks...');
-            await pecorino.service.transaction.pay.exportTasks(
+            await pecorino.service.transaction.withdraw.exportTasks(
                 pecorino.factory.transactionStatusType.Expired
             )({ task: taskRepo, transaction: transactionRepo });
         } catch (error) {

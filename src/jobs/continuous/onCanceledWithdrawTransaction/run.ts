@@ -1,5 +1,5 @@
 /**
- * 成立取引監視
+ * 中止取引監視
  * @ignore
  */
 
@@ -20,7 +20,7 @@ pecorino.mongoose.connect(<string>process.env.MONGOLAB_URI, mongooseConnectionOp
 let countExecute = 0;
 
 const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
-const INTERVAL_MILLISECONDS = 200;
+const INTERVAL_MILLISECONDS = 500;
 const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
 const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
 
@@ -34,8 +34,8 @@ setInterval(
 
         try {
             debug('exporting tasks...');
-            await pecorino.service.transaction.pay.exportTasks(
-                pecorino.factory.transactionStatusType.Confirmed
+            await pecorino.service.transaction.withdraw.exportTasks(
+                pecorino.factory.transactionStatusType.Canceled
             )({ task: taskRepo, transaction: transactionRepo });
         } catch (error) {
             console.error(error);

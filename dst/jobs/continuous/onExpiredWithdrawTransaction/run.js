@@ -34,7 +34,7 @@ setInterval(() => __awaiter(this, void 0, void 0, function* () {
     countExecute += 1;
     try {
         debug('exporting tasks...');
-        yield pecorino.service.transaction.pay.exportTasks(pecorino.factory.transactionStatusType.Expired)({ task: taskRepo, transaction: transactionRepo });
+        yield pecorino.service.transaction.withdraw.exportTasks(pecorino.factory.transactionStatusType.Expired)({ task: taskRepo, transaction: transactionRepo });
     }
     catch (error) {
         console.error(error);
