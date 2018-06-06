@@ -2,58 +2,28 @@
 
 # PECORINO jobs application
 
-## Getting Started
+[![CircleCI](https://circleci.com/gh/motionpicture/pecorino-jobs.svg?style=svg)](https://circleci.com/gh/motionpicture/pecorino-jobs)
 
-### 開発方法
+## Table of contents
 
-npmでパッケージをインストール。
+* [Usage](#usage)
+* [License](#license)
 
-```shell
-npm install
-```
-
-* [npm](https://www.npmjs.com/)
-
-typescriptをjavascriptにコンパイル。
-
-```shell
-npm run build
-```
+## Usage
 
 ### Environment variables
 
-| Name                                          | Required              | Value           | Purpose                |
-|-----------------------------------------------|-----------------------|-----------------|------------------------|
-| `DEBUG`                                       | false                 | pecorino-jobs:* | Debug                  |
-| `NPM_TOKEN`                                   | true                  |                 | NPM auth token         |
-| `NODE_ENV`                                    | true                  |                 | environment name       |
-| `MONGOLAB_URI`                                | true                  |                 | MongoDB connection URI |
-| `SENDGRID_API_KEY`                            | true                  |                 | SendGrid API Key       |
-| `PECORINO_DEVELOPER_EMAIL`                    | true                  |                 | 開発者通知用メールアドレス          |
-| `PECORINO_DEVELOPER_LINE_NOTIFY_ACCESS_TOKEN` | true                  |                 | 開発者LINE通知アクセストークン      |
-| `WEBJOBS_ROOT_PATH`                           | only on Azure WebApps | dst/jobs        |                        |
+| Name                                 | Required              | Value           | Purpose                |
+|--------------------------------------|-----------------------|-----------------|------------------------|
+| `DEBUG`                              | false                 | pecorino-jobs:* | Debug                  |
+| `NPM_TOKEN`                          | true                  |                 | NPM auth token         |
+| `NODE_ENV`                           | true                  |                 | environment name       |
+| `MONGOLAB_URI`                       | true                  |                 | MongoDB connection URI |
+| `SENDGRID_API_KEY`                   | true                  |                 | SendGrid API Key       |
+| `DEVELOPER_EMAIL`                    | true                  |                 | 開発者通知用メールアドレス          |
+| `DEVELOPER_LINE_NOTIFY_ACCESS_TOKEN` | true                  |                 | 開発者LINE通知アクセストークン      |
+| `WEBJOBS_ROOT_PATH`                  | only on Azure WebApps | dst/jobs        |                        |
 
-## tslint
+## License
 
-コード品質チェックをtslintで行う。
-
-* [tslint](https://github.com/palantir/tslint)
-* [tslint-microsoft-contrib](https://github.com/Microsoft/tslint-microsoft-contrib)
-
-`npm run check`でチェック実行。
-
-## Security
-
-* [nsp](https://www.npmjs.com/package/nsp)
-
-## clean
-
-`npm run clean`で不要なソース削除。
-
-## Test
-
-`npm test`でテスト実行。
-
-## Docs
-
-`npm run doc` emits jsdoc to ./doc.
+UNLICENSE
