@@ -1,7 +1,7 @@
 /**
  * タスク中止
  */
-import * as pecorino from '@motionpicture/pecorino-domain';
+import * as pecorino from '@pecorino/domain';
 
 import { connectMongo } from '../../../connectMongo';
 

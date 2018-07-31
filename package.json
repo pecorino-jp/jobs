@@ -9,11 +9,11 @@
     }
   ],
   "dependencies": {
-    "@motionpicture/pecorino-domain": "0.0.1",
+    "@pecorino/domain": "^1.0.0-alpha.0",
     "debug": "^3.1.0",
     "moment": "^2.22.2"
   },
-  "description": "This is a repogitory for PECORINO jobs.",
+  "description": "This is a repogitory for Pecorino Jobs.",
   "devDependencies": {
     "@types/debug": "0.0.30",
     "@types/mocha": "^5.2.1",
@@ -39,10 +39,13 @@
     "npm": ">=5.3.0"
   },
   "keywords": [],
-  "license": "UNLICENSED",
+  "license": "ISC",
   "name": "pecorino-jobs",
   "private": true,
-  "repository": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pecorino-jp/jobs.git"
+  },
   "scripts": {
     "build": "tsc && cpx \"src/**/*.job\" dst -v",
     "build:watch": "concurrently \"tsc -w\" \"cpx \"src/**/*.job\" dst -v -w\"",

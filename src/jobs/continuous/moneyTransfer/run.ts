@@ -1,7 +1,7 @@
 /**
  * 現金転送実行
  */
-import * as pecorino from '@motionpicture/pecorino-domain';
+import * as pecorino from '@pecorino/domain';
 import * as createDebug from 'debug';
 
 import { connectMongo } from '../../../connectMongo';

@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * タスクリトライ
  */
-const pecorino = require("@motionpicture/pecorino-domain");
+const pecorino = require("@pecorino/domain");
 const connectMongo_1 = require("../../../connectMongo");
 connectMongo_1.connectMongo().then(() => {
     let count = 0;

@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * 取引キューエクスポートが実行中のままになっている取引を監視する
  */
-const pecorino = require("@motionpicture/pecorino-domain");
+const pecorino = require("@pecorino/domain");
 const createDebug = require("debug");
 const connectMongo_1 = require("../../../connectMongo");
 const debug = createDebug('pecorino-jobs:*');

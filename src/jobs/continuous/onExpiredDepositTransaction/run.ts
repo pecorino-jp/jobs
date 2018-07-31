@@ -1,7 +1,7 @@
 /**
  * 期限切れ入金取引監視
  */
-import * as pecorino from '@motionpicture/pecorino-domain';
+import * as pecorino from '@pecorino/domain';
 import * as createDebug from 'debug';
 
 import { connectMongo } from '../../../connectMongo';

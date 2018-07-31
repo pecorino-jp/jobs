@@ -1,7 +1,7 @@
 /**
  * 取引キューエクスポートが実行中のままになっている取引を監視する
  */
-import * as pecorino from '@motionpicture/pecorino-domain';
+import * as pecorino from '@pecorino/domain';
 import * as createDebug from 'debug';
 
 import { connectMongo } from '../../../connectMongo';
