@@ -1,41 +1,37 @@
 /**
  * タスクリトライ
- * @ignore
  */
+import * as pecorino from '@pecorino/domain';
 
-import * as pecorino from '@motionpicture/pecorino-domain';
+import { connectMongo } from '../../../connectMongo';
 
-import mongooseConnectionOptions from '../../../mongooseConnectionOptions';
+connectMongo().then(() => {
+    let count = 0;
 
-pecorino.mongoose.connect(<string>process.env.MONGOLAB_URI, mongooseConnectionOptions)
-    .then()
-    .catch((err) => {
-        console.error(err);
-        process.exit(1);
-    });
+    const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
+    const INTERVAL_MILLISECONDS = 500;
+    const RETRY_INTERVAL_MINUTES = 10;
+    const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
 
-let count = 0;
+    setInterval(
+        async () => {
+            if (count > MAX_NUBMER_OF_PARALLEL_TASKS) {
+                return;
+            }
 
-const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
-const INTERVAL_MILLISECONDS = 1000;
-const RETRY_INTERVAL_MINUTES = 10;
-const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
+            count += 1;
 
-setInterval(
-    async () => {
-        if (count > MAX_NUBMER_OF_PARALLEL_TASKS) {
-            return;
-        }
+            try {
+                await pecorino.service.task.retry(RETRY_INTERVAL_MINUTES)({ task: taskRepo });
+            } catch (error) {
+                console.error(error);
+            }
 
-        count += 1;
-
-        try {
-            await pecorino.service.task.retry(RETRY_INTERVAL_MINUTES)({ task: taskRepo });
-        } catch (error) {
-            console.error(error);
-        }
-
-        count -= 1;
-    },
-    INTERVAL_MILLISECONDS
-);
+            count -= 1;
+        },
+        INTERVAL_MILLISECONDS
+    );
+}).catch((err) => {
+    console.error('connetMongo:', err);
+    process.exit(1);
+});

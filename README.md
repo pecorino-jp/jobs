@@ -1,8 +1,6 @@
-<img src="https://motionpicture.jp/images/common/logo_01.svg" alt="motionpicture" title="motionpicture" align="right" height="56" width="98"/>
+# Pecorino Jobs Application
 
-# PECORINO jobs application
-
-[![CircleCI](https://circleci.com/gh/motionpicture/pecorino-jobs.svg?style=svg)](https://circleci.com/gh/motionpicture/pecorino-jobs)
+[![CircleCI](https://circleci.com/gh/pecorino-jp/jobs.svg?style=svg)](https://circleci.com/gh/pecorino-jp/jobs)
 
 ## Table of contents
 
@@ -16,7 +14,6 @@
 | Name                                 | Required              | Value           | Purpose                |
 |--------------------------------------|-----------------------|-----------------|------------------------|
 | `DEBUG`                              | false                 | pecorino-jobs:* | Debug                  |
-| `NPM_TOKEN`                          | true                  |                 | NPM auth token         |
 | `NODE_ENV`                           | true                  |                 | environment name       |
 | `MONGOLAB_URI`                       | true                  |                 | MongoDB connection URI |
 | `SENDGRID_API_KEY`                   | true                  |                 | SendGrid API Key       |
@@ -26,4 +23,4 @@
 
 ## License
 
-UNLICENSE
+ISC
