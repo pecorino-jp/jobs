@@ -27,6 +27,7 @@ connectMongo().then(() => {
                 debug('transaction expiring...');
                 await transactionRepo.makeExpired({ expires: new Date() });
             } catch (error) {
+                // tslint:disable-next-line:no-console
                 console.error(error);
             }
 
@@ -35,6 +36,7 @@ connectMongo().then(() => {
         INTERVAL_MILLISECONDS
     );
 }).catch((err) => {
+    // tslint:disable-next-line:no-console
     console.error('connetMongo:', err);
     process.exit(1);
 });

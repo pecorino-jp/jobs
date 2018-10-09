@@ -29,6 +29,7 @@ connectMongo().then(() => {
                     pecorino.factory.taskName.MoneyTransfer
                 )({ taskRepo: taskRepo, connection: pecorino.mongoose.connection });
             } catch (error) {
+                // tslint:disable-next-line:no-console
                 console.error(error);
             }
 
@@ -37,6 +38,7 @@ connectMongo().then(() => {
         INTERVAL_MILLISECONDS
     );
 }).catch((err) => {
+    // tslint:disable-next-line:no-console
     console.error('connetMongo:', err);
     process.exit(1);
 });
