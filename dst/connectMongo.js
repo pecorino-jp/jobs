@@ -17,7 +17,7 @@ const debug = createDebug('pecorino-jobs:*');
 const PING_INTERVAL = 10000;
 const connectOptions = {
     autoReconnect: true,
-    keepAlive: 120000,
+    keepAlive: true,
     connectTimeoutMS: 30000,
     socketTimeoutMS: 0,
     reconnectTries: 30,
@@ -40,6 +40,7 @@ function connectMongo() {
                     debug('pingResult:', pingResult);
                 }
                 catch (error) {
+                    // tslint:disable-next-line:no-console
                     console.error('ping:', error);
                 }
                 // 疎通確認結果が適性であれば何もしない
@@ -53,6 +54,7 @@ function connectMongo() {
                 debug('MongoDB connected!');
             }
             catch (error) {
+                // tslint:disable-next-line:no-console
                 console.error('mongoose.connect:', error);
             }
         }), PING_INTERVAL);

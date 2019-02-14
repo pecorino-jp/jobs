@@ -30,11 +30,13 @@ connectMongo_1.connectMongo().then(() => {
             yield pecorino.service.task.executeByName(pecorino.factory.taskName.MoneyTransfer)({ taskRepo: taskRepo, connection: pecorino.mongoose.connection });
         }
         catch (error) {
+            // tslint:disable-next-line:no-console
             console.error(error);
         }
         count -= 1;
     }), INTERVAL_MILLISECONDS);
 }).catch((err) => {
+    // tslint:disable-next-line:no-console
     console.error('connetMongo:', err);
     process.exit(1);
 });
