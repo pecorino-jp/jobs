@@ -3,6 +3,7 @@
  */
 import * as pecorino from '@pecorino/domain';
 import * as createDebug from 'debug';
+import * as mongoose from 'mongoose';
 
 import { connectMongo } from '../../../connectMongo';
 
@@ -13,7 +14,7 @@ connectMongo().then(() => {
 
     const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
     const INTERVAL_MILLISECONDS = 500;
-    const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
+    const taskRepo = new pecorino.repository.Task(mongoose.connection);
 
     setInterval(
         async () => {
@@ -27,7 +28,7 @@ connectMongo().then(() => {
                 debug('count:', count);
                 await pecorino.service.task.executeByName(
                     pecorino.factory.taskName.MoneyTransfer
-                )({ taskRepo: taskRepo, connection: pecorino.mongoose.connection });
+                )({ taskRepo: taskRepo, connection: mongoose.connection });
             } catch (error) {
                 // tslint:disable-next-line:no-console
                 console.error(error);

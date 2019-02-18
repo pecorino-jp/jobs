@@ -2,6 +2,7 @@
  * タスクリトライ
  */
 import * as pecorino from '@pecorino/domain';
+import * as mongoose from 'mongoose';
 
 import { connectMongo } from '../../../connectMongo';
 
@@ -11,7 +12,7 @@ connectMongo().then(() => {
     const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
     const INTERVAL_MILLISECONDS = 500;
     const RETRY_INTERVAL_MINUTES = 10;
-    const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
+    const taskRepo = new pecorino.repository.Task(mongoose.connection);
 
     setInterval(
         async () => {

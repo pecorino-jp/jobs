@@ -3,6 +3,7 @@
  */
 import * as pecorino from '@pecorino/domain';
 import * as createDebug from 'debug';
+import * as mongoose from 'mongoose';
 
 import { connectMongo } from '../../../connectMongo';
 
@@ -13,7 +14,7 @@ connectMongo().then(() => {
 
     const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
     const INTERVAL_MILLISECONDS = 500;
-    const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
+    const transactionRepo = new pecorino.repository.Transaction(mongoose.connection);
     const RETRY_INTERVAL_MINUTES = 10;
 
     setInterval(

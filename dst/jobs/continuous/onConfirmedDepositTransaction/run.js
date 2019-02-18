@@ -13,14 +13,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const pecorino = require("@pecorino/domain");
 const createDebug = require("debug");
+const mongoose = require("mongoose");
 const connectMongo_1 = require("../../../connectMongo");
 const debug = createDebug('pecorino-jobs:*');
 connectMongo_1.connectMongo().then(() => {
     let countExecute = 0;
     const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
     const INTERVAL_MILLISECONDS = 200;
-    const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
-    const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
+    const taskRepo = new pecorino.repository.Task(mongoose.connection);
+    const transactionRepo = new pecorino.repository.Transaction(mongoose.connection);
     setInterval(() => __awaiter(this, void 0, void 0, function* () {
         if (countExecute > MAX_NUBMER_OF_PARALLEL_TASKS) {
             return;

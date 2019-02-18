@@ -13,13 +13,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const pecorino = require("@pecorino/domain");
 const createDebug = require("debug");
+const mongoose = require("mongoose");
 const connectMongo_1 = require("../../../connectMongo");
 const debug = createDebug('pecorino-jobs:*');
 connectMongo_1.connectMongo().then(() => {
     let count = 0;
     const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
     const INTERVAL_MILLISECONDS = 500;
-    const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
+    const taskRepo = new pecorino.repository.Task(mongoose.connection);
     setInterval(() => __awaiter(this, void 0, void 0, function* () {
         if (count > MAX_NUBMER_OF_PARALLEL_TASKS) {
             return;
@@ -27,7 +28,7 @@ connectMongo_1.connectMongo().then(() => {
         count += 1;
         try {
             debug('count:', count);
-            yield pecorino.service.task.executeByName(pecorino.factory.taskName.CancelMoneyTransfer)({ taskRepo: taskRepo, connection: pecorino.mongoose.connection });
+            yield pecorino.service.task.executeByName(pecorino.factory.taskName.CancelMoneyTransfer)({ taskRepo: taskRepo, connection: mongoose.connection });
         }
         catch (error) {
             // tslint:disable-next-line:no-console

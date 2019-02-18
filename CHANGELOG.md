@@ -10,8 +10,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
-- update domain.
 - MongoDBインデックス調整
+- install @pecorino/domain@2.0.0
 
 ### Deprecated
 

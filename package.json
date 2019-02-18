@@ -9,14 +9,16 @@
     }
   ],
   "dependencies": {
-    "@pecorino/domain": "^1.1.1-alpha.0",
+    "@pecorino/domain": "^2.0.0-alpha.0",
     "debug": "^3.2.6",
-    "moment": "^2.24.0"
+    "moment": "^2.24.0",
+    "mongoose": "5.4.9"
   },
   "description": "Pecorino Jobs Application",
   "devDependencies": {
     "@types/debug": "0.0.30",
     "@types/mocha": "^5.2.6",
+    "@types/mongoose": "^5.3.17",
     "@types/node": "^8.10.40",
     "@types/power-assert": "^1.5.0",
     "@types/sinon": "^4.3.3",
