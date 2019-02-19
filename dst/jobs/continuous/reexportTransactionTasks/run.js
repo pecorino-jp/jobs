@@ -13,13 +13,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const pecorino = require("@pecorino/domain");
 const createDebug = require("debug");
+const mongoose = require("mongoose");
 const connectMongo_1 = require("../../../connectMongo");
 const debug = createDebug('pecorino-jobs:*');
 connectMongo_1.connectMongo().then(() => {
     let countRetry = 0;
     const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
     const INTERVAL_MILLISECONDS = 500;
-    const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
+    const transactionRepo = new pecorino.repository.Transaction(mongoose.connection);
     const RETRY_INTERVAL_MINUTES = 10;
     setInterval(() => __awaiter(this, void 0, void 0, function* () {
         if (countRetry > MAX_NUBMER_OF_PARALLEL_TASKS) {
@@ -31,11 +32,13 @@ connectMongo_1.connectMongo().then(() => {
             yield transactionRepo.reexportTasks(RETRY_INTERVAL_MINUTES);
         }
         catch (error) {
+            // tslint:disable-next-line:no-console
             console.error(error);
         }
         countRetry -= 1;
     }), INTERVAL_MILLISECONDS);
 }).catch((err) => {
+    // tslint:disable-next-line:no-console
     console.error('connetMongo:', err);
     process.exit(1);
 });

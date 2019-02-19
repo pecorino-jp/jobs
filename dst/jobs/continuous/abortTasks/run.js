@@ -12,13 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * タスク中止
  */
 const pecorino = require("@pecorino/domain");
+const mongoose = require("mongoose");
 const connectMongo_1 = require("../../../connectMongo");
 connectMongo_1.connectMongo().then(() => {
     let count = 0;
     const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
     const INTERVAL_MILLISECONDS = 500;
     const RETRY_INTERVAL_MINUTES = 10;
-    const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
+    const taskRepo = new pecorino.repository.Task(mongoose.connection);
     setInterval(() => __awaiter(this, void 0, void 0, function* () {
         if (count > MAX_NUBMER_OF_PARALLEL_TASKS) {
             return;
@@ -28,11 +29,13 @@ connectMongo_1.connectMongo().then(() => {
             yield pecorino.service.task.abort(RETRY_INTERVAL_MINUTES)({ task: taskRepo });
         }
         catch (error) {
+            // tslint:disable-next-line:no-console
             console.error(error);
         }
         count -= 1;
     }), INTERVAL_MILLISECONDS);
 }).catch((err) => {
+    // tslint:disable-next-line:no-console
     console.error('connetMongo:', err);
     process.exit(1);
 });

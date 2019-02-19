@@ -3,6 +3,7 @@
  */
 import * as pecorino from '@pecorino/domain';
 import * as createDebug from 'debug';
+import * as mongoose from 'mongoose';
 
 import { connectMongo } from '../../../connectMongo';
 
@@ -13,8 +14,8 @@ connectMongo().then(() => {
 
     const MAX_NUBMER_OF_PARALLEL_TASKS = 10;
     const INTERVAL_MILLISECONDS = 200;
-    const taskRepo = new pecorino.repository.Task(pecorino.mongoose.connection);
-    const transactionRepo = new pecorino.repository.Transaction(pecorino.mongoose.connection);
+    const taskRepo = new pecorino.repository.Task(mongoose.connection);
+    const transactionRepo = new pecorino.repository.Transaction(mongoose.connection);
 
     setInterval(
         async () => {
@@ -30,6 +31,7 @@ connectMongo().then(() => {
                     pecorino.factory.transactionStatusType.Confirmed
                 )({ task: taskRepo, transaction: transactionRepo });
             } catch (error) {
+                // tslint:disable-next-line:no-console
                 console.error(error);
             }
 
@@ -38,6 +40,7 @@ connectMongo().then(() => {
         INTERVAL_MILLISECONDS
     );
 }).catch((err) => {
+    // tslint:disable-next-line:no-console
     console.error('connetMongo:', err);
     process.exit(1);
 });
